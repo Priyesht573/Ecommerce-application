@@ -1,0 +1,335 @@
+{% load cart %} 
+{% load custom_filter %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+  <link rel="shortcut icon" href="https://ik.imagekit.io/swastik/svgexport-19_q1mcTgfM3.png" type="image/x-icon" />
+  <title>Shop Vibe</title>
+  <meta name="description" content="" />
+  <meta property="og:description" content="" />
+  <meta property="og:image" content="https://ik.imagekit.io/swastik/svgexport-19_q1mcTgfM3.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <style>
+    @font-face {
+      font-family: "Maven Pro";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(https://ik.imagekit.io/swastik/Maven__3__nC0f8V_YU.woff2) format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+        U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    .font-maven {
+      font-family: "Maven Pro", sans-serif;
+      display: swap;
+    }
+
+    * {
+      scroll-behavior: smooth;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static '/output.css' %}" />
+</head>
+
+<body class="font-maven bg-gray-50 dark:bg-gray-900">
+  <nav
+    class="bg-white border-b sticky border-gray-200 dark:border-gray-600 dark:bg-gray-900 items-center w-full top-0 left-0 z-20">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="/" class="flex items-center">
+  <img class="mr-3 hidden md:flex" src="{% static '/logo.svg' %}" alt="Logo">
+        <span class="self-center text-xl md:text-2xl font-semibold whitespace-nowrap dark:text-white">Shop Vibe</span>
+        </a>
+      <div class="flex items-center space-x-3 md:order-2">
+        <li class="font-sans block lg:inline-block lg:mt-0 lg:ml-6 align-middle text-gray-800 hover:text-gray-600">
+          <a data-popover-target="popover-bottom" data-popover-placement="bottom" type="button" role="button"
+            class="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 hover:scale-105 duration-200">
+            <svg viewBox="0 0 24 24" lass="flex-1  fill-current" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M4.46785 10.2658C4.47574 10.3372 4.48376 10.4094 4.49187 10.4823L4.61751 11.6131C4.7057 12.4072 4.78218 13.0959 4.91562 13.6455C5.05917 14.2367 5.29582 14.7937 5.78931 15.2354C6.28281 15.6771 6.86251 15.8508 7.46598 15.9281C8.02694 16.0001 8.71985 16 9.51887 16H14.8723C15.4201 16 15.9036 16 16.3073 15.959C16.7448 15.9146 17.1698 15.8162 17.5785 15.5701C17.9872 15.324 18.2731 14.9944 18.5171 14.6286C18.7422 14.291 18.9684 13.8637 19.2246 13.3797L21.7141 8.67734C22.5974 7.00887 21.3879 4.99998 19.5 4.99998L9.39884 4.99998C8.41604 4.99993 7.57525 4.99988 6.90973 5.09287C6.5729 5.13994 6.24284 5.21529 5.93326 5.34375L5.78941 4.04912C5.65979 2.88255 4.67375 2 3.5 2H3C2.44772 2 2 2.44771 2 3C2 3.55228 2.44772 4 3 4H3.5C3.65465 4 3.78456 4.11628 3.80164 4.26998L4.46785 10.2658Z"
+                  fill="white"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M14 19.5C14 18.1193 15.1193 17 16.5 17C17.8807 17 19 18.1193 19 19.5C19 20.8807 17.8807 22 16.5 22C15.1193 22 14 20.8807 14 19.5Z"
+                  fill="white"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M5 19.5C5 18.1193 6.11929 17 7.5 17C8.88071 17 10 18.1193 10 19.5C10 20.8807 8.88071 22 7.5 22C6.11929 22 5 20.8807 5 19.5Z"
+                  fill="white"></path>
+              </g>
+            </svg>
+            <span class="sr-only">Notifications</span>
+            <div
+              class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">
+              {{ request.session.cart.keys|length }}
+            </div>
+          </a>
+        </li>
+        <button>
+          <button type="button"
+            class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 hover:scale-105 duration-200"
+            id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" aria-expanded="false"
+            data-dropdown-placement="bottom">
+            <span class="sr-only">Open user menu</span><img class="w-10 h-10 rounded-full"
+              src="https://i.ibb.co/Kzb3zK0/index.png" alt="user photo" />
+          </button>
+          <div id="dropdownInformation"
+            class="z-50 hidden bg-gray-200 divide-y divide-gray-100 rounded-lg shadow w-auto dark:bg-gray-700 dark:divide-gray-600">
+            {% if customer %}
+            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+              <div>{{ customer.first_name }} {{ customer.last_name }}</div>
+              <div class="font-medium truncate">{{ customer.email }}</div>
+            </div>
+            {% endif %} {% if request.session.customer %}
+            <ul class="text-sm text-gray-700 dark:text-gray-400 overflow-hidden rounded-lg"
+              aria-labelledby="dropdownInformationButton">
+              <li class="overflow-hidden hover:scale-105 duration-200">
+                <a href="/orders"
+                  class="block px-3 py-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:scale-105 duration-200">Orders</a>
+              </li>
+              <li class="overflow-hidden hover:scale-105 duration-200">
+                <a href="/logout"
+                  class="block px-3 py-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:scale-105 duration-200">Sign
+                  out</a>
+              </li>
+            </ul>
+            {% else %}
+            <ul class="text-sm text-gray-700 dark:text-gray-400 overflow-hidden rounded-lg"
+              aria-labelledby="dropdownInformationButton">
+              <li class="overflow-hidden hover:scale-105 duration-200">
+                <a href="/login/"
+                  class="block px-3 py-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:scale-105 duration-200">Sign
+                  in</a>
+              </li>
+              <li class="overflow-hidden hover:scale-105 duration-200">
+                <a href="/signup"
+                  class="block px-3 py-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:scale-105 duration-200">Sign
+                  Up</a>
+              </li>
+            </ul>
+            {% endif %}
+          </div>
+        </button><button data-collapse-toggle="mobile-menu-language-select" type="button"
+          class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="mobile-menu-language-select" aria-expanded="false">
+          <span class="sr-only">Open main menu</span><svg class="w-10 h-10" fill="currentColor" aria-hidden="true"
+            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+        id="mobile-menu-language-select">
+        <ul
+          class="md:items-center flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <li>
+            <a href="/"
+              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:scale-105 duration-200"
+              aria-current="page">Home</a>
+          </li>
+          <li>
+            <a href="/services"
+              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:scale-105 duration-200">Services</a>
+          </li>
+          <li>
+            <button id="dropdownDelayButton2" data-dropdown-toggle="dropdownDelay2" data-dropdown-delay="50"
+              data-dropdown-trigger="hover" aria-expanded="false" data-dropdown-placement="bottom"
+              class="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 hover:scale-105 duration-200 md:dark:hover:bg-transparent">
+              Browse Products<svg class="w-5 h-5 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <div id="dropdownDelay2"
+              class="z-20 hidden font-normal bg-gray-200 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+              <ul class="text-sm text-gray-700 dark:text-gray-400 overflow-hidden rounded-lg"
+                aria-labelledby="dropdownDelayButton2">
+                {% for category in categories %}
+                <li class="overflow-hidden hover:scale-105 duration-200">
+                  <a href="/category/{{ category.id }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ category.name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+          <li>
+            <a href="/contact"
+              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:scale-105 duration-200">Contact</a>
+          </li>
+          <li>
+            <select id="theme"
+              class="bg-gray-100 border border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full py-2 px-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option selected="selected" value="System" id="systemTheme">
+                <span class="text-xl">🌓 System</span>
+              </option>
+              <option value="Light" id="lightTheme">☀️ Light</option>
+              <option value="Dark" id="darkTheme">🌙 Dark</option>
+            </select>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section id="Cookie-Notice"
+    class="z-50 fixed max-w-xs sm:max-w-md p-4 mx-auto bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-2xl bottom-5 left-5"
+    role="alert">
+    <h2 class="font-semibold text-gray-800 dark:text-white">
+      🍪 Cookie Notice
+    </h2>
+    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+      We use cookies to ensure that we give you the best experience on our
+      website.<a href="#" class="text-blue-500 hover:underline">Read cookies policies</a>.
+    </p>
+    <div class="flex items-center justify-between mt-4 gap-x-4 shrink-0">
+      <div></div>
+      <button id="cookie-accepted" type="button"
+        class="text-xs bg-gray-800 font-medium rounded-lg hover:bg-gray-700 text-white px-4 py-2.5 duration-300 transition-colors focus:outline-none"
+        data-dismiss-target="#Cookie-Notice" aria-label="Close">
+        Accept<span class="sr-only">Close</span>
+      </button>
+    </div>
+  </section>
+  <script>
+    document
+      .getElementById("cookie-accepted")
+      .addEventListener("click", function () {
+        (document.cookie = "cookie-accepted=true"),
+          (document.getElementById("Cookie-Notice").style.display = "none");
+      }),
+      -1 !== document.cookie.indexOf("cookie-accepted=true") &&
+      (document.getElementById("Cookie-Notice").style.display = "none");
+  </script>
+  {% block content %}
+  {% endblock %}
+  <footer
+    class="sticky z-20 w-full p-4 bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
+    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">©<span class="px-1" id="year"></span><a
+        href="/" class="hover:underline px-2">Shop Vibe™</a>. All Rights
+      Reserved.</span>
+    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+      <li>
+        <a href="/privacy-policy" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+      </li>
+      <li>
+        <a href="/contact" class="mr-4 hover:underline md:mr-6">Contact</a>
+      </li>
+      <li><a href="/faq" class="mr-4 hover:underline md:mr-6">Faq</a></li>
+    </ul>
+  </footer>
+  <script>
+    function setTheme(e) {
+      switch (e) {
+        case "System":
+          localStorage.removeItem("color-theme");
+          break;
+        case "Light":
+          localStorage.setItem("color-theme", "light"),
+            document.documentElement.classList.remove("dark");
+          break;
+        case "Dark":
+          localStorage.setItem("color-theme", "dark"),
+            document.documentElement.classList.add("dark");
+      }
+    }
+    "dark" === localStorage.getItem("color-theme") ||
+      (!("color-theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark"),
+      document
+        .getElementById("theme")
+        .addEventListener("change", function (e) {
+          setTheme(e.target.value);
+        }),
+      setTheme(localStorage.getItem("color-theme") || "System");
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const yearElement = document.getElementById("year");
+      const currentYear = new Date().getFullYear();
+      yearElement.innerText = currentYear;
+    });
+  </script>
+  <script src="{% static '/script.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      navigation: {
+        nextEl: ".cus-swiper-button-next",
+        prevEl: ".cus-swiper-button-prev",
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        dynamicBullets: !0,
+        clickable: !0,
+      },
+      rewind: !0,
+    }),
+      swiper2 = new Swiper(".mySwiper2", {
+        spaceBetween: 30,
+        navigation: {
+          nextEl: ".cus-swiper-button-next",
+          prevEl: ".cus-swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          dynamicBullets: !0,
+          clickable: !0,
+        },
+        rewind: !0,
+        breakpoints: {
+          640: { slidesPerView: 2, spaceBetween: 20 },
+          1024: { slidesPerView: 3, spaceBetween: 30 },
+          1536: { slidesPerView: 4, spaceBetween: 40 },
+        },
+      }),
+      swiper3 = new Swiper(".mySwiper3", {
+        spaceBetween: 30,
+        navigation: {
+          nextEl: ".cus-swiper-button-next",
+          prevEl: ".cus-swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          dynamicBullets: !0,
+          clickable: !0,
+        },
+        rewind: !0,
+        breakpoints: { 640: { slidesPerView: 2, spaceBetween: 20 } },
+      }),
+      swiper4 = new Swiper(".mySwiper4", {
+        spaceBetween: 30,
+        navigation: {
+          nextEl: ".cus-swiper-button-next",
+          prevEl: ".cus-swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          dynamicBullets: !0,
+          clickable: !0,
+        },
+        rewind: !0,
+        breakpoints: {
+          640: { slidesPerView: 1.5, spaceBetween: 20 },
+          1024: { slidesPerView: 2.5, spaceBetween: 20 },
+        },
+        autoplay: { delay: 8e3 },
+        loop: !0,
+        slidesPerView: 1,
+      });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+</body>
+
+</html>
